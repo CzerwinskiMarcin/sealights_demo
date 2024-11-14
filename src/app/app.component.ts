@@ -10,4 +10,9 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'sealights-fe-task';
+
+  constructor() {
+    //@ts-ignore
+    console.log(import.meta.env);
+  }
 }

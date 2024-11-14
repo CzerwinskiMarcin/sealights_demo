@@ -1,0 +1,25 @@
+<form [formGroup]="userForm" (submit)="onSubmit()">
+    <div>
+        <label for="name">Name*</label>
+        <input id="name" type="text" formControlName="name">
+    </div>
+
+    <div>
+        <label for="birthdate">Birthday:</label>
+        <input id="birthdate" type="date" formControlName="birthdate">
+    </div>
+
+    <div formArrayName="addresses">
+        @for(address of addresses.controls; track $index; let index = $index) {
+            <app-address-form [form]="$any(address)" [index]="index" [countries]="countries" (addCity)="addCity($event)"></app-address-form>
+        }
+    </div>
+
+    <div>
+        <button type="button" (click)="addAddress()">Add Address</button>
+    </div>
+
+    <div>
+        <button type="submit" [disabled]="userForm.invalid">Save</button>
+    </div>
+</form>
