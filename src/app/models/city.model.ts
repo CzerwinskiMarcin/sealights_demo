@@ -1,5 +1,4 @@
-import { BaseModel } from "./base.model";
-import { CityData } from "./rest.model";
+import { BaseModel, CityData } from "./";
 
 export class CityModel extends BaseModel<CityData, CityModel> {
     public id: number = NaN;

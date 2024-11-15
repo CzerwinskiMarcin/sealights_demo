@@ -1,4 +1,4 @@
-import { Address, AddressModel, BaseModel, CityData, CountryData, UserData } from "./";
+import { Address, AddressModel, BaseModel, UserData } from "./";
 
 export interface UserFormData {
     name: string;

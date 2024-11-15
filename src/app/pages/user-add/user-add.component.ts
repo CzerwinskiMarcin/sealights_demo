@@ -1,17 +1,17 @@
 import { Component, OnInit, signal, Signal } from '@angular/core';
+import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { provideNativeDateAdapter } from '@angular/material/core';
-
-import { FormArray, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { CountryModel, UserModel } from '../../models';
 import { Router } from '@angular/router';
-import { ROUTER_PATHS } from '../../constants/routerPaths';
-import { CountriesService } from '../../services/countries.service';
+
 import { AddressFormComponent } from '../../ui/address-form/address-form.component';
+import { CountryModel, UserModel } from '../../models';
+import { CountriesService } from '../../services/countries.service';
+import { ROUTER_PATHS } from '../../constants/routerPaths';
 import { UsersService } from '../../services/users.service';
 
 @Component({
@@ -23,17 +23,7 @@ import { UsersService } from '../../services/users.service';
     ReactiveFormsModule
   ],
   providers: [
-    provideNativeDateAdapter({
-      parse: {
-        dateInput: 'LL',
-      },
-      display: {
-        dateInput: 'YYYY/DD/MM/YYYY',
-        monthYearLabel: 'YYYY',
-        dateA11yLabel: 'LL',
-        monthYearA11yLabel: 'YYYY',
-      },
-    })
+    provideNativeDateAdapter()
   ],
   templateUrl: './user-add.component.html',
   styleUrl: './user-add.component.scss'
@@ -51,7 +41,7 @@ export class UserAddComponent implements OnInit {
     return this.userForm.get('addresses') as FormArray;
   }
 
-  constructor(private router: Router, private usersServices: UsersService, private countriesService: CountriesService) {}
+  constructor(private router: Router, private usersServices: UsersService, private countriesService: CountriesService) { }
 
   public ngOnInit(): void {
     this.countries = this.countriesService.countries;
@@ -74,13 +64,10 @@ export class UserAddComponent implements OnInit {
     if (birthdate === null) birthdate = undefined;
     if (!name) name = '';
     const user = new UserModel().fillFromFormData({ name, birthdate, addresses});
-    try {
-      await this.usersServices.createUser(user).subscribe();
-      console.log(this.userForm.value);
-      // this.router.navigate([ROUTER_PATHS.USERS_LIST]);
-    } catch (err) {
-      console.log('Error', err);
-    }
+    // Depending on the implementation of error handling in httpservice, act accordingly
+    // Here we just let it pass and we return to the main page after request regardless of the result
+    await this.usersServices.createUser(user).subscribe();
+    this.router.navigate([ROUTER_PATHS.USERS_LIST]);
   }
 
   public onCancelClick(): void {

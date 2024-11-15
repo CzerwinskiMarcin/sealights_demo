@@ -1,12 +1,13 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit, Signal, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { ROUTER_PATHS } from '../../constants/routerPaths';
-import { UsersService } from '../../services/users.service';
+
 import { CountriesService } from '../../services/countries.service';
 import { CountryModel, UserModel } from '../../models';
-import { CommonModule } from '@angular/common';
+import { ROUTER_PATHS } from '../../constants/routerPaths';
+import { UsersService } from '../../services/users.service';
 
 @Component({
   selector: 'app-user-list',
@@ -29,7 +30,7 @@ export class UserListComponent implements OnInit {
     this.usersService.getUsers().subscribe();
   }
 
-  onAddUserClick(): void {
+  public onAddUserClick(): void {
     this.router.navigate([ROUTER_PATHS.ADD_USERS]);
   }
 }

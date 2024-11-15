@@ -1,8 +1,9 @@
 import { computed, Injectable, Signal, signal, WritableSignal } from '@angular/core';
-import { CityData, CityModel } from '../models';
-import { BaseService } from './base.service';
 import { HttpClient } from '@angular/common/http';
 import { map, Observable, switchMap, tap } from 'rxjs';
+
+import { BaseService } from './base.service';
+import { CityData, CityModel } from '../models';
 
 @Injectable({
   providedIn: 'root'
@@ -27,14 +28,14 @@ export class CitiesService extends BaseService<CityData, CityModel> {
   public getCities(countryId: number): Signal<CityModel[]> {
     return computed(() => {
       const map = this.citiesSignal();
-      if (countryId in map) return map[countryId]
-      return []
+      if (countryId in map) return map[countryId];
+      return [];
     });
   }
 
   public createCity(city: CityModel): Observable<CityModel[]> {
     return this.post(`${this.ENDPOINT}/city`, {name: city.toResponse().name, countryId: city.countryId})
-      .pipe(switchMap(() => this.updateCitiesForCountry(city.countryId)))
-    ;
+      .pipe(switchMap(() => this.updateCitiesForCountry(city.countryId)));
+    
   }
 }

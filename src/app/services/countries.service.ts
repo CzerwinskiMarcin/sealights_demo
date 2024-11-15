@@ -1,8 +1,9 @@
 import { computed, Injectable, Signal, signal, WritableSignal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { map, Observable, tap } from 'rxjs';
+
 import { BaseService } from './base.service';
 import { CountryData, CountryModel } from '../models';
-import { map, Observable, tap } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'

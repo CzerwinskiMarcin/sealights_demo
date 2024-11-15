@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, input, OnDestroy, OnInit, output, signal, Signal, effect } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -6,12 +7,11 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { map, Observable, of, Subscription, switchMap, tap } from 'rxjs';
 
 import { CityModel, CountryModel } from '../../models';
-import { map, Observable, of, Subscription, switchMap, tap } from 'rxjs';
 import { CitiesService } from '../../services/cities.service';
 import { StreetDialogComponent } from '../street-dialog/street-dialog.component';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-address-form',

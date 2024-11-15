@@ -1,5 +1,4 @@
-import { BaseModel } from "./base.model";
-import { CountryData } from "./rest.model";
+import { BaseModel, CountryData } from "./";
 
 export interface Country {
     id: number;

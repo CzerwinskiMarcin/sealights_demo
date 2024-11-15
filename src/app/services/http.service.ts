@@ -20,7 +20,7 @@ export class HttpService<ResponseInterface> {
       )
   }
 
-  // Due to not beeing able to have one model for response and request for cities, we need to got with unknown type of data
+  // Due to not being able to have one model for response and request for cities, we need to got with unknown type of data
   protected post(url: string, data: unknown): Observable<void> {
     return this.http.post<void>(url, data)
       .pipe(
