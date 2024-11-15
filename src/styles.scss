@@ -1,1 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
+@use '@angular/material' as mat;
+
+html, body { height: 100%; }
+body { margin: 32px; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+mat-form-field {
+  width: 300px;
+  margin-bottom: 12px;
+}
+
+.mat-mdc-unelevated-button {
+  border-radius: 5px !important;
+}
+
+.info-button {
+  background-color: #c00c75 !important;
+}
+
+.warning-button {
+  background-color: #c00c0c !important;
+
+  &[disabled] {
+    background-color: var(--mdc-filled-button-disabled-container-color) !important;
+  }
+}

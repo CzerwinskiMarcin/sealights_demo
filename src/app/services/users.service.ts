@@ -1,20 +1,30 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { computed, Injectable, Signal, signal, WritableSignal } from '@angular/core';
+import { map, Observable, tap } from 'rxjs';
 import { BaseService } from './base.service';
-import { User, UserModel } from '../models';
+import { UserData, UserModel } from '../models';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UsersService extends BaseService<User, UserModel> {
-  constructor(http: HttpClient) { super(http); }
+export class UsersService extends BaseService<UserData, UserModel> {
+  usersSignal: WritableSignal<UserModel[]> = signal([]);
 
-  public getUsers(): Observable<{}> {
-    return this.http.get(`${this.ENDPOINT}/persons`);
+  get users(): Signal<UserModel[]> {
+    return computed(() => this.usersSignal());
   }
 
-  public createUser(user: UserModel): Observable<{}> {
-    return this.http.post(`${this.ENDPOINT}/person`, user.toResponse());
+  constructor(http: HttpClient) { super(http); }
+
+  public getUsers(): Observable<UserModel[]> {
+    return this.get(`${this.ENDPOINT}/persons`)
+      .pipe(
+        map((userData: UserData[]) => userData.map(data => new UserModel().fromResponse(data))),
+        tap(users => this.usersSignal.set(users))
+      );
+  }
+
+  public createUser(user: UserModel): Observable<void> {
+    return this.post(`${this.ENDPOINT}/person`, user.toResponse());
   }
 }

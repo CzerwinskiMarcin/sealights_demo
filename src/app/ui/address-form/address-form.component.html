@@ -1,39 +1,45 @@
-<h2>Address</h2>
 <div [formGroup]="form()">
     <div>
-        <label [for]="'address_name-' + index">Address Name*:</label>
-        <input [id]="'address_name-' + index" type="string" formControlName="name">
+        <mat-form-field>
+            <mat-label>Address name</mat-label>
+            <input matInput [id]="'address_name-' + index" type="string" formControlName="name">
+            <mat-error>Required</mat-error>
+        </mat-form-field>
     </div>
 
     <div>
-        <label [for]="'country-' + index">Select country</label>
-        <select [id]="'country-' + index" formControlName="country">
-            @for(country of countries(); track country.id; let index = $index) {
-                <option [ngValue]="country">{{country.name}}</option>
-            }
-        </select>
+        <mat-form-field>
+            <mat-select formControlName="country">
+                @for(country of countries(); track country.id; let index = $index) {
+                    <mat-option [value]="country">{{country.name}}</mat-option>
+                }
+            </mat-select>
+            <mat-error>Required</mat-error>
+        </mat-form-field>
     </div>
 
     <div>
-        <label [for]="'city-' + index">Select city</label>
-        <select [id]="'city-' + index">
-            <!-- @for(city of getCities(addresses.controls[index].value.country?.id); track city) {
-                <option [ngValue]="city">{{city}}</option>
-            } -->
-        </select>
-        <button type="button" (click)="onAddCity()">Add city</button>
+        <mat-form-field>
+            <mat-label>Select city</mat-label>
+            <mat-select formControlName="city">
+                @for(city of cities(); track city.id) {
+                    <mat-option [value]="city">{{city.name}}</mat-option>
+                }
+            </mat-select>
+            <mat-error>Required</mat-error>
+        </mat-form-field>
 
-        @if (openModal) {
-            <input type="text" #newCity/>
-            <button type="button" (click)="openModal = false">Cancel</button>
-            <button type="button" (click)="saveCity(newCity.value)">Save</button>
-        }
+        <button mat-flat-button type="button" class="info-button" [disabled]="!countries().length" (click)="onAddCity()">Add city</button>
     </div>
 
     <div>
-        <label [for]="'street-' + index">Street</label>
-        <input [id]="'street-' + index" type="string" formControlName="street">
+        <mat-form-field>
+            <mat-label>Street</mat-label>
+            <input matInput [id]="'street-' + index" type="string" formControlName="street">
+            <mat-error>Required</mat-error>
+        </mat-form-field>
     </div>
+
 </div>
 
-<button type="button" [disabled]="!canRemove" (click)="removeAddress()">Remove address</button>
+<button mat-flat-button type="button" class="warning-button" [disabled]="!canRemove()" (click)="removeAddress()">Remove address</button>

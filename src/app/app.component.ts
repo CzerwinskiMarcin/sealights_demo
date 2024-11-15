@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { CountriesService } from './services/countries.service';
 
 @Component({
   selector: 'app-root',
@@ -8,11 +9,10 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
-  title = 'sealights-fe-task';
+export class AppComponent implements OnInit {
+  constructor(private countriesService: CountriesService) { }
 
-  constructor() {
-    //@ts-ignore
-    console.log(import.meta.env);
+  async ngOnInit(): Promise<void> {
+    await this.countriesService.updateCountries().subscribe();
   }
 }

@@ -1,25 +1,37 @@
 <form [formGroup]="userForm" (submit)="onSubmit()">
     <div>
-        <label for="name">Name*</label>
-        <input id="name" type="text" formControlName="name">
+        <mat-form-field>
+            <mat-label>Name</mat-label>
+            <input matInput id="name" type="text" formControlName="name">
+            <mat-error>Required</mat-error>
+        </mat-form-field>
     </div>
 
     <div>
-        <label for="birthdate">Birthday:</label>
-        <input id="birthdate" type="date" formControlName="birthdate">
+        <mat-form-field>
+            <mat-label>Birthday</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="birthdate">
+            <mat-datepicker-toggle matIconSuffix [for]="picker">
+                <mat-icon matDatepickerToggleIcon>keyboard_arrow_down</mat-icon>
+            </mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
     </div>
 
-    <div formArrayName="addresses">
-        @for(address of addresses.controls; track $index; let index = $index) {
-            <app-address-form [form]="$any(address)" [index]="index" [countries]="countries" (addCity)="addCity($event)"></app-address-form>
+    <div class="form-container" formArrayName="addresses">
+        @for(address of addresses.controls; track getAddressId($any(address)); let index = $index) {
+            <app-address-form [form]="$any(address)" [index]="index" [countries]="countries()"
+            [canRemove]="addresses.controls.length > 1" (remove)="onRemove(index)"></app-address-form>
         }
     </div>
 
-    <div>
-        <button type="button" (click)="addAddress()">Add Address</button>
-    </div>
-
-    <div>
-        <button type="submit" [disabled]="userForm.invalid">Save</button>
+    <div class="buttons-container">
+        <span>
+            <button mat-flat-button type="button" (click)="addAddress()">Add Address</button>
+        </span>
+        <span>
+            <button mat-flat-button type="button" class="warning-button" (click)="onCancelClick()">Cancel</button>
+            <button mat-flat-button type="submit" [disabled]="userForm.invalid">Save</button>
+        </span>
     </div>
 </form>

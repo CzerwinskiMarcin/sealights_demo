@@ -1,19 +1,25 @@
-import { Injectable } from '@angular/core';
+import { computed, Injectable, Signal, signal, WritableSignal } from '@angular/core';
 import { BaseService } from './base.service';
 import { CountryData, CountryModel } from '../models';
-import { map, Observable } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CountriesService extends BaseService<CountryData, CountryModel> {
+  private countriesSignal: WritableSignal<CountryModel[]> = signal([]);
 
   constructor(http: HttpClient) { super(http); }
 
-  getCountries(): Observable<CountryModel[]> {
-    return this.http.get<CountryData[]>(`${this.ENDPOINT}/countries`).pipe(
-      map(res => res.map(res => new CountryModel().fromResponse(res)))
+  get countries(): Signal<CountryModel[]> {
+    return computed(() => this.countriesSignal());
+  }
+
+  public updateCountries(): Observable<CountryModel[]> {
+    return this.get(`${this.ENDPOINT}/countries`).pipe(
+      map(res => res.map(res => new CountryModel().fromResponse(res))),
+      tap(countries => this.countriesSignal.set(countries))
     );
   }
 }

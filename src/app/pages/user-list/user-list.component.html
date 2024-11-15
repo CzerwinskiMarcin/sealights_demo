@@ -1,1 +1,40 @@
-<button (click)="onAddUserClick()">ADD NEW USER</button>
+<div>
+  <table mat-table [dataSource]="users()">
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> Id. </th>
+      <td mat-cell *matCellDef="let user">{{ user.id }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let user">{{ user.name }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="birthdate">
+      <th mat-header-cell *matHeaderCellDef> Birthdate </th>
+        <td mat-cell *matCellDef="let user">
+          @if(user.birthdate) {
+            {{ user.birthdate | date }}
+          } @else {
+            NA
+          }
+    </td>
+    </ng-container>
+
+    <ng-container matColumnDef="addressesCount">
+      <th mat-header-cell *matHeaderCellDef> Addresss count. </th>
+      <td mat-cell *matCellDef="let user">{{ user.addresses.length }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+  </table>
+</div>
+
+<div class="buttons-container">
+  <span>
+      <button mat-flat-button (click)="onAddUserClick()">ADD NEW USER</button>
+  </span>
+</div>

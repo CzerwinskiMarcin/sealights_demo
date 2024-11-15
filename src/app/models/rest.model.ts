@@ -1,5 +1,5 @@
-export interface UserDate {
-    id: number;
+export interface UserData {
+    id?: number;
     name: string;
     birthdate?: string;
     addresses: {
@@ -17,6 +17,6 @@ export interface CountryData {
 
 export interface CityData {
     id: number;
-    countryId: number;
     name: string;
+    countryId?: number;
 }
